@@ -11,7 +11,7 @@
 	},
 	"inRepository": true,
 	"translatorType": 1,
-	"lastUpdated": "2024-09-18 09:58:45"
+	"lastUpdated": "2025-10-14 18:44:56"
 }
 
 /*
@@ -73,10 +73,12 @@ function doImport() {
 			item.itemType = "bookSection";
 			break;
 		case 'audio':
+		case 'audios':
 		case 'sound_recording':
 			item.itemType = "audioRecording";
 			break;
 		case 'video':
+		case 'videos':
 		case 'dvd':
 			item.itemType = "videoRecording";
 			break;
@@ -95,25 +97,32 @@ function doImport() {
 			break;
 		case 'thesis':
 		case 'dissertation':
+		case 'dissertations':
 			item.itemType = "thesis";
 			break;
 		case 'archive_manuscript':
+		case 'archival_materials':
+		case 'manuscripts':
+		case 'archival_material_manuscript':
 		case 'object':
 			item.itemType = "manuscript";
 			break;
 		case 'map':
+		case 'maps':
 			item.itemType = "map";
 			break;
 		case 'reference_entry':
 			item.itemType = "encyclopediaArticle";
 			break;
 		case 'image':
+		case 'images':
 			item.itemType = "artwork";
 			break;
 		case 'newspaper_article':
 			item.itemType = "newspaperArticle";
 			break;
 		case 'conference_proceeding':
+		case 'conference_proceedings':
 			item.itemType = "conferencePaper";
 			break;
 		default:
@@ -131,7 +140,10 @@ function doImport() {
 	item.title = ZU.xpathText(doc, '//p:display/p:title', ns);
 	if (item.title) {
 		item.title = ZU.unescapeHTML(item.title);
-		item.title = item.title.replace(/\s*:/, ":");
+		item.title = item.title.replace(/\s*:/, ":")
+			// Remove everything after a slash in the title -
+			// generally authorship information
+			.replace(/ \/ [^/]+$/, '');
 	}
 	var creators = ZU.xpath(doc, '//p:display/p:creator', ns);
 	var contributors = ZU.xpath(doc, '//p:display/p:contributor', ns);
@@ -726,7 +738,7 @@ var testCases = [
 		"items": [
 			{
 				"itemType": "book",
-				"title": "The promise / Damon Galgut.",
+				"title": "The promise",
 				"creators": [
 					{
 						"firstName": "Damon",
@@ -937,6 +949,63 @@ var testCases = [
 						"tag": "Wikipedia"
 					}
 				],
+				"notes": [],
+				"seeAlso": []
+			}
+		]
+	},
+	{
+		"type": "import",
+		"input": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><record xmlns=\"http://www.exlibrisgroup.com/xsd/primo/primo_nm_bib\" xmlns:sear=\"http://www.exlibrisgroup.com/xsd/jaguar/search\"><delivery><availabilityLinks>detailsgetit1</availabilityLinks><displayLocation>true</displayLocation><recordOwner>39UPD_INST</recordOwner><physicalServiceId>null</physicalServiceId><sharedDigitalCandidates>null</sharedDigitalCandidates><link><displayLabel>thumbnail</displayLabel><linkURL>https://proxy-eu.hosted.exlibrisgroup.com/exl_rewrite/books.google.com/books?bibkeys=ISBN:0261102656,OCLC:,LCCN:&amp;jscmd=viewapi&amp;callback=updateGBSCover</linkURL><linkType>thumbnail</linkType><id>:_0</id></link><availability>available_in_library</availability><additionalLocations>false</additionalLocations><digitalAuxiliaryMode>false</digitalAuxiliaryMode><holding><matchForHoldings><holdingRecord>852##b</holdingRecord><matchOn>MainLocation</matchOn></matchForHoldings><subLocationCode>BEAT1</subLocationCode><volumeFilter>null</volumeFilter><ilsApiId>990005230620206046</ilsApiId><callNumberType>8</callNumberType><libraryCode>BEATO</libraryCode><yearFilter>null</yearFilter><boundWith>false</boundWith><stackMapUrl>https://biblio.unipd.it/biblioteche/beatopellegrino</stackMapUrl><isValidUser>true</isValidUser><translateRelatedTitle>null</translateRelatedTitle><mainLocation>Biblioteca Beato Pellegrino</mainLocation><callNumber>IA.I.1955</callNumber><adaptorid>ALMA_01</adaptorid><organization>39UPD_INST</organization><holdingURL>OVP</holdingURL><availabilityStatus>available</availabilityStatus><id>_:0</id><subLocation>Prestabile</subLocation><holdId>22192239290006046</holdId><holKey>HoldingResultKey [mid=22192239290006046, libraryId=202892910006046, locationCode=BEAT1, callNumber=IA.I.1955]</holKey><singleUnavailableItemProcessType>null</singleUnavailableItemProcessType><relatedTitle>null</relatedTitle></holding><bestlocation><matchForHoldings><holdingRecord>852##b</holdingRecord><matchOn>MainLocation</matchOn></matchForHoldings><subLocationCode>BEAT1</subLocationCode><volumeFilter>null</volumeFilter><ilsApiId>990005230620206046</ilsApiId><callNumberType>8</callNumberType><libraryCode>BEATO</libraryCode><yearFilter>null</yearFilter><boundWith>false</boundWith><stackMapUrl>https://biblio.unipd.it/biblioteche/beatopellegrino</stackMapUrl><isValidUser>true</isValidUser><translateRelatedTitle>null</translateRelatedTitle><mainLocation>Biblioteca Beato Pellegrino</mainLocation><callNumber>IA.I.1955</callNumber><adaptorid>ALMA_01</adaptorid><organization>39UPD_INST</organization><holdingURL>OVP</holdingURL><availabilityStatus>available</availabilityStatus><id>_:0</id><subLocation>Prestabile</subLocation><holdId>22192239290006046</holdId><holKey>HoldingResultKey [mid=22192239290006046, libraryId=202892910006046, locationCode=BEAT1, callNumber=IA.I.1955]</holKey><singleUnavailableItemProcessType>null</singleUnavailableItemProcessType><relatedTitle>null</relatedTitle></bestlocation><electronicServices>null</electronicServices><feDisplayOtherLocations>false</feDisplayOtherLocations><hasD>null</hasD><hideResourceSharing>false</hideResourceSharing><hasFilteredServices>null</hasFilteredServices><physicalItemTextCodes>null</physicalItemTextCodes><quickAccessService>null</quickAccessService><recordInstitutionCode>null</recordInstitutionCode><displayedAvailability>null</displayedAvailability><consolidatedCoverage>null</consolidatedCoverage><additionalElectronicServices>null</additionalElectronicServices><deliveryCategory>Alma-P</deliveryCategory><serviceMode>ovp</serviceMode><filteredByGroupServices>null</filteredByGroupServices><electronicContextObjectId>null</electronicContextObjectId><GetIt1><links><isLinktoOnline>false</isLinktoOnline><displayText>null</displayText><inst4opac>39UPD_INST</inst4opac><getItTabText>service_getit</getItTabText><adaptorid>ALMA_01</adaptorid><ilsApiId>990005230620206046</ilsApiId><link>OVP</link><id>_:0</id></links><category>Alma-P</category></GetIt1></delivery><search><creator>Tolkien, J. R. R.</creator><creationdate>1995</creationdate><sort_title>letters of J.R.R. Tolkien</sort_title><sort_journal_title>&lt;&lt;The &gt;&gt;letters of J.R.R. Tolkien</sort_journal_title><sort_creationdate_full>1995</sort_creationdate_full><isbn>9780261102651</isbn><isbn>0261102656</isbn><language>eng</language><title>&lt;&lt;The &gt;&gt;letters of J.R.R. Tolkien</title><startdate>1995</startdate><unimarc_local_fields>994 M</unimarc_local_fields><unimarc_local_fields>993 M</unimarc_local_fields><unimarc_local_fields>992 71</unimarc_local_fields><unimarc_local_fields>991 SBN_BIB</unimarc_local_fields><unimarc_local_fields>900 BK</unimarc_local_fields><general>HarperCollins</general><general>(OCoLC)876045467</general><general>(OCM)876045467</general><general>(SBN)PUV0296693</general><general>(Aleph)000523062SBP01</general><general>SBP01PUV0296693</general><general>PUV0296693</general><rtype>books</rtype><contributor>Carpenter, Humphrey</contributor><contributor>Tolkien, Christopher</contributor><journal_title>&lt;&lt;The &gt;&gt;letters of J.R.R. Tolkien</journal_title><facet_creatorcontrib>Carpenter, Humphrey</facet_creatorcontrib><facet_creatorcontrib>Tolkien, Christopher</facet_creatorcontrib><facet_creatorcontrib>Tolkien,, J. R. R.</facet_creatorcontrib><sort_author>Tolkien, J. R. R.</sort_author><sort_creationdate>1995</sort_creationdate></search><display><identifier>$$CISBN$$V0261102656</identifier><creationdate>1995</creationdate><creator>Tolkien, J. R. R.   $$QTolkien, J. R. R.</creator><lds09>PUV0296693</lds09><format>&amp;#8205;463 p. ; 20 cm.</format><language>eng</language><source>Alma</source><type>book</type><title>The letters of J.R.R. Tolkien / a selection edited by Humphrey Carpenter ; with the assistance of Christopher Tolkien</title><version>0</version><mms>990005230620206046</mms><contributor>Tolkien, Christopher &lt;&amp;#8205;Autore&gt; $$QTolkien, Christopher</contributor><contributor>Carpenter, Humphrey &lt;&amp;#8205;Autore&gt; $$QCarpenter, Humphrey</contributor><lds50>990005230620206046</lds50><publisher>London : HarperCollins</publisher><place>London</place></display><control><recordid>alma990005230620206046</recordid><sourceid>alma</sourceid><score>1.0</score><originalsourceid>000523062-SBP01</originalsourceid><sourceformat>UNIMARC</sourceformat><sourcerecordid>990005230620206046</sourcerecordid><colldiscovery>$$Titem$$D81283465180006046$$I39UPD_INST</colldiscovery><sourcesystem>OTHER</sourcesystem><isDedup>false</isDedup></control><addata><originatingSystemIDContributor>CFIV015811</originatingSystemIDContributor><date>1995</date><aulast>Tolkien</aulast><cop>London</cop><isbn>0261102656</isbn><format>book</format><ristype>BOOK</ristype><oclcid>(ocolc)876045467</oclcid><auinit>J</auinit><title>The letters of J.R.R. Tolkien</title><aufirst>J. R. R.</aufirst><addau>Tolkien, Christopher</addau><addau>Carpenter, Humphrey</addau><au>Tolkien,J. R. R.</au><genre>book</genre><btitle>The letters of J.R.R. Tolkien</btitle><pub>HarperCollins</pub></addata><sort><creationdate>1995</creationdate><author>Tolkien, J. R. R.</author><title>letters of J.R.R. Tolkien</title></sort></record>",
+		"items": [
+			{
+				"itemType": "book",
+				"title": "The letters of J.R.R. Tolkien",
+				"creators": [
+					{
+						"firstName": "J. R. R.",
+						"lastName": "Tolkien",
+						"creatorType": "author"
+					},
+					{
+						"firstName": "Christopher",
+						"lastName": "Tolkien",
+						"creatorType": "contributor"
+					},
+					{
+						"firstName": "Humphrey",
+						"lastName": "Carpenter",
+						"creatorType": "contributor"
+					}
+				],
+				"date": "1995",
+				"ISBN": "0261102656",
+				"callNumber": "IA.I.1955",
+				"language": "eng",
+				"numPages": "463",
+				"place": "London",
+				"publisher": "HarperCollins",
+				"attachments": [],
+				"tags": [],
+				"notes": [],
+				"seeAlso": []
+			}
+		]
+	},
+	{
+		"type": "import",
+		"input": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><record xmlns=\"http://www.exlibrisgroup.com/xsd/primo/primo_nm_bib\" xmlns:sear=\"http://www.exlibrisgroup.com/xsd/jaguar/search\"><delivery><bestlocation><isValidUser>true</isValidUser><organization>01HVD_INST</organization><libraryCode>HFA</libraryCode><availabilityStatus>check_holdings</availabilityStatus><subLocation>(By appointment only; on-site use only.) Circulating copies may be available in other Harvard Libraries.</subLocation><subLocationCode>GEN</subLocationCode><mainLocation>Harvard Film Archive</mainLocation><callNumber>HFA Item no. 3151</callNumber><callNumberType>8</callNumberType><holdingURL>OVP</holdingURL><adaptorid>ALMA_01</adaptorid><ilsApiId>990105822220203941</ilsApiId><holdId>222201431210003941</holdId><holKey>HoldingResultKey [mid=222201431210003941, libraryId=124018130003941, locationCode=GEN, callNumber=HFA Item no. 3151]</holKey><matchForHoldings><matchOn>MainLocation</matchOn><holdingRecord>852##b</holdingRecord></matchForHoldings><stackMapUrl>http://nrs.harvard.edu/urn-3:hul.ois:HFA</stackMapUrl><relatedTitle/><translateRelatedTitle/><yearFilter/><volumeFilter/><singleUnavailableItemProcessType/><boundWith>false</boundWith></bestlocation><holding><isValidUser>true</isValidUser><organization>01HVD_INST</organization><libraryCode>HFA</libraryCode><availabilityStatus>check_holdings</availabilityStatus><subLocation>(By appointment only; on-site use only.) Circulating copies may be available in other Harvard Libraries.</subLocation><subLocationCode>GEN</subLocationCode><mainLocation>Harvard Film Archive</mainLocation><callNumber>HFA Item no. 3151</callNumber><callNumberType>8</callNumberType><holdingURL>OVP</holdingURL><adaptorid>ALMA_01</adaptorid><ilsApiId>990105822220203941</ilsApiId><holdId>222201431210003941</holdId><holKey>HoldingResultKey [mid=222201431210003941, libraryId=124018130003941, locationCode=GEN, callNumber=HFA Item no. 3151]</holKey><matchForHoldings><matchOn>MainLocation</matchOn><holdingRecord>852##b</holdingRecord></matchForHoldings><stackMapUrl>http://nrs.harvard.edu/urn-3:hul.ois:HFA</stackMapUrl><relatedTitle/><translateRelatedTitle/><yearFilter/><volumeFilter/><singleUnavailableItemProcessType/><boundWith>false</boundWith></holding><electronicServices/><additionalElectronicServices/><filteredByGroupServices/><quickAccessService/><deliveryCategory>Alma-P</deliveryCategory><serviceMode>ovp</serviceMode><availability>check_holdings</availability><availabilityLinks>detailsgetit1</availabilityLinks><availabilityLinksUrl/><displayedAvailability/><displayLocation>true</displayLocation><additionalLocations>false</additionalLocations><physicalItemTextCodes/><feDisplayOtherLocations>false</feDisplayOtherLocations><almaInstitutionsList/><recordInstitutionCode/><recordOwner>01HVD_INST</recordOwner><hasFilteredServices/><digitalAuxiliaryMode>false</digitalAuxiliaryMode><digitalAuxiliaryThumbnail>false</digitalAuxiliaryThumbnail><hideResourceSharing>false</hideResourceSharing><sharedDigitalCandidates/><consolidatedCoverage/><electronicContextObjectId/><almaOpenurl/><GetIt1><category>Alma-P</category><links><isLinktoOnline>false</isLinktoOnline><getItTabText>service_getit</getItTabText><adaptorid>ALMA_01</adaptorid><ilsApiId>990105822220203941</ilsApiId><link>OVP</link><inst4opac>01HVD_INST</inst4opac><displayText/></links>undefined</GetIt1>undefined<physicalServiceId/>undefined<link><linkType>thumbnail</linkType>undefined<linkURL>https://proxy-na.hosted.exlibrisgroup.com/exl_rewrite/books.google.com/books?bibkeys=ISBN:,OCLC:894528838,LCCN:&amp;jscmd=viewapi&amp;callback=updateGBSCover</linkURL>undefined<displayLabel>thumbnail</displayLabel>undefined</link>undefined<hasD/>undefined</delivery><display><source>Alma</source><type>videos</type><language>ger</language><title>Cat and mouse </title><format>[ca. 1 minute] : aspect ratio 1:1.37, sd., b&amp;w : 16 mm. viewing print.</format><creationdate>1970</creationdate><publisher>[1970?]</publisher><mms>990105822220203941</mms><genre>film trailers$$Qfilm trailers</genre><unititle>Kot i mysz (Trailer). 16 mm.$$QKot i mysz (Trailer). 16 mm</unititle><place>1970?]</place><version>1</version><lds01>990105822220203941</lds01><lds03>&lt;a href=&quot;https://id.lib.harvard.edu/alma/990105822220203941/catalog&quot;&gt;Permanent link to HOLLIS record&lt;/a&gt;</lds03><lds04>Grove Press Film Collection (Harvard Film Archive)$$QGrove Press Film Collection (Harvard Film Archive)</lds04><lds11>[1970?]</lds11><lds13>Harvard Film Archive 16mm trailer, HFA item no. 3151, from the Grove Press Collection.</lds13><lds13>Cat and mouse was released in Europe in 1967 and in the United States in 1970.</lds13><lds13>Common title, not from piece.</lds13><lds14>[production company unknown]</lds14></display><control><sourcerecordid>990105822220203941</sourcerecordid><recordid>alma990105822220203941</recordid><sourceid>alma</sourceid><originalsourceid>010582222-HVD01</originalsourceid><sourcesystem>OCLC</sourcesystem><sourceformat>MARC21</sourceformat><score>1.0</score><isDedup>false</isDedup></control><addata><addau>Grove Press Film Collection (Harvard Film Archive)</addau><date>1970</date><cop>1970?</cop><oclcid>(ocolc)894528838</oclcid><format>book</format><genre>unknown</genre><ristype>VIDEO</ristype><btitle>Cat and mouse</btitle></addata><sort><title>Cat and mouse /</title><author>Grove Press Film Collection (Harvard Film Archive)</author><creationdate>1970</creationdate></sort></record>",
+		"items": [
+			{
+				"itemType": "videoRecording",
+				"title": "Cat and mouse",
+				"creators": [],
+				"date": "1970",
+				"callNumber": "HFA Item no. 3151",
+				"language": "ger",
+				"place": "1970?",
+				"attachments": [],
+				"tags": [],
 				"notes": [],
 				"seeAlso": []
 			}

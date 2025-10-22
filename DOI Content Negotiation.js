@@ -8,7 +8,7 @@
 	"priority": 100,
 	"inRepository": true,
 	"translatorType": 8,
-	"lastUpdated": "2024-09-27 14:35:38"
+	"lastUpdated": "2025-07-27 04:51:26"
 }
 
 /*
@@ -64,6 +64,42 @@ async function doSearch(items) {
 }
 
 async function processDOI(doi) {
+	// TEMP: Use Crossref REST for Crossref DOIs during Crossref outage
+	let currentDate = new Date();
+	// Outage: 17 May 2025, 14:00–15:00 UTC
+	// Start 1 hour before (13:00 UTC) and end 2 hours after (17:00 UTC)
+	// TEMP for May 22 outage
+	let startDate = new Date(Date.UTC(2025, 4, 22, 00, 0, 0));
+	let endDate   = new Date(Date.UTC(2025, 4, 24, 0, 0, 0));
+
+	// At least for now, always use REST API for Crossref DOIs
+	// due to better reliability
+	// TEMP: Except don't, because some REST API requests are really slow
+	// https://forums.zotero.org/discussion/comment/496121/#Comment_496121
+	//if (currentDate >= startDate && currentDate <= endDate) {
+	if (false) {
+		try {
+			let raJSON = await requestJSON(
+				`https://doi.org/ra/${encodeURIComponent(doi)}`
+			);
+			if (raJSON.length) {
+				let ra = raJSON[0].RA;
+				if (ra == 'Crossref') {
+					let translate = Zotero.loadTranslator('search');
+					// Crossref REST
+					translate.setTranslator("0a61e167-de9a-4f93-a68a-628b48855909");
+					let item = { itemType: "journalArticle", DOI: doi };
+					translate.setSearch(item);
+					translate.translate();
+					return;
+				}
+			}
+		}
+		catch (e) {
+			Z.debug(e);
+		}
+	}
+
 	let response = await requestText(
 		`https://doi.org/${encodeURIComponent(doi)}`,
 		{ headers: { Accept: "application/vnd.datacite.datacite+json, application/vnd.crossref.unixref+xml, application/vnd.citationstyles.csl+json" } }
